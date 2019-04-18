@@ -64,7 +64,7 @@ namespace SomeApplication
 {
     public class Program
     {
-        public static Task Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var config = new RedisConfig
             {
