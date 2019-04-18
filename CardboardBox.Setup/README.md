@@ -14,41 +14,41 @@ using CardboardBox.Setup;
 
 namespace SomeApplication
 {
-	public class Program
-	{
-		private readonly ISomeService someService;
+    public class Program
+    {
+        private readonly ISomeService someService;
 
-		public Program(ISomeService someService)
-		{
-			this.someService = someService;
-		}
+        public Program(ISomeService someService)
+        {
+            this.someService = someService;
+        }
 
-		public void Start()
-		{
-			someService.Hello();
-		}
+        public void Start()
+        {
+            someService.Hello();
+        }
 
-		public static void Main(string[] args)
-		{
-			DependencyInjection.StructureMap()
-							   //Chain any CardboardBox utilities like .UseRedis(host)
-							   .Build<Program>()
-							   .Start();
-		}
-	}
+        public static void Main(string[] args)
+        {
+            DependencyInjection.StructureMap()
+                               //Chain any CardboardBox utilities like .UseRedis(host)
+                               .Build<Program>()
+                               .Start();
+        }
+    }
 
-	public interface ISomeService
-	{
-		void Hello();
-	}
+    public interface ISomeService
+    {
+        void Hello();
+    }
 
-	public class SomeService : ISomeService
-	{
-		public void Hello()
-		{
-			Console.WriteLine("Hello world!");
-		}
-	}
+    public class SomeService : ISomeService
+    {
+        public void Hello()
+        {
+            Console.WriteLine("Hello world!");
+        }
+    }
 }
 ```
 
@@ -60,41 +60,41 @@ using CardboardBox.Setup;
 
 namespace SomeApplication
 {
-	public class Program
-	{
-		private readonly ISomeService someService;
+    public class Program
+    {
+        private readonly ISomeService someService;
 
-		public Program(ISomeService someService)
-		{
-			this.someService = someService;
-		}
+        public Program(ISomeService someService)
+        {
+            this.someService = someService;
+        }
 
-		public void Start()
-		{
-			someService.Hello();
-		}
+        public void Start()
+        {
+            someService.Hello();
+        }
 
-		public static void Main(string[] args)
-		{
-			DependencyInjection.Lamar()
-							   //Chain any CardboardBox utilities like .UseRedis(host)
-							   .Build<Program>()
-							   .Start();
-		}
-	}
+        public static void Main(string[] args)
+        {
+            DependencyInjection.Lamar()
+                               //Chain any CardboardBox utilities like .UseRedis(host)
+                               .Build<Program>()
+                               .Start();
+        }
+    }
 
-	public interface ISomeService
-	{
-		void Hello();
-	}
+    public interface ISomeService
+    {
+        void Hello();
+    }
 
-	public class SomeService : ISomeService
-	{
-		public void Hello()
-		{
-			Console.WriteLine("Hello world!");
-		}
-	}
+    public class SomeService : ISomeService
+    {
+        public void Hello()
+        {
+            Console.WriteLine("Hello world!");
+        }
+    }
 }
 ```
 
@@ -106,42 +106,42 @@ using CardboardBox.Setup;
 
 namespace SomeApplication
 {
-	public class Program
-	{
-		private readonly ISomeService someService;
+    public class Program
+    {
+        private readonly ISomeService someService;
 
-		public Program(ISomeService someService)
-		{
-			this.someService = someService;
-		}
+        public Program(ISomeService someService)
+        {
+            this.someService = someService;
+        }
 
-		public void Start()
-		{
-			someService.Hello();
-		}
+        public void Start()
+        {
+            someService.Hello();
+        }
 
-		public static void Main(string[] args)
-		{
-			DependencyInjection.ServiceCollection()
-							   //Chain any CardboardBox utilities like .UseRedis(host)
-							   .Use<ISomeService, SomeService>()
-							   .Build<Program>()
-							   .Start();
-		}
-	}
+        public static void Main(string[] args)
+        {
+            DependencyInjection.ServiceCollection()
+                               //Chain any CardboardBox utilities like .UseRedis(host)
+                               .Use<ISomeService, SomeService>()
+                               .Build<Program>()
+                               .Start();
+        }
+    }
 
-	public interface ISomeService
-	{
-		void Hello();
-	}
+    public interface ISomeService
+    {
+        void Hello();
+    }
 
-	public class SomeService : ISomeService
-	{
-		public void Hello()
-		{
-			Console.WriteLine("Hello world!");
-		}
-	}
+    public class SomeService : ISomeService
+    {
+        public void Hello()
+        {
+            Console.WriteLine("Hello world!");
+        }
+    }
 }
 ```
 
@@ -158,23 +158,23 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace SomeWebApp
 {
-	public class Startup
-	{
-		...
+    public class Startup
+    {
+        ...
 
-		public void ConfigureServices(IServiceCollection services)
-		{
-			services.CardboardBox()
-					.UseRedis("localhost");
+        public void ConfigureServices(IServiceCollection services)
+        {
+            services.CardboardBox()
+                    .UseRedis("localhost");
 
-			...
-		}
+            ...
+        }
 
-		public void Configure()
-		{
-			...
-		}
-	}
+        public void Configure()
+        {
+            ...
+        }
+    }
 }
 ```
 
@@ -187,24 +187,24 @@ using CardboardBox.Setup;
 
 namespace SomeApplication
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var settings = Settings.Get<SettingsModel>("appsettings.json");
-		}
-	}
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var settings = Settings.Get<SettingsModel>("appsettings.json");
+        }
+    }
 
-	public class SettingsModel
-	{
-		public string SomeFilePath { get; set; }
-	}
+    public class SettingsModel
+    {
+        public string SomeFilePath { get; set; }
+    }
 }
 ```
 
 Appsettings.json file:
 ``` JSON
 {
-	"SomeFilePath": "C:\\Something.cool"
+    "SomeFilePath": "C:\\Something.cool"
 }
 ```
