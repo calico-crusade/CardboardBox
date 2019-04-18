@@ -9,7 +9,7 @@ namespace CardboardBox.Redis
 {
     public interface IRedisRepo
     {
-        Task<T> Get<T>(string key);
+        Task<T> Get<T>(string key, T def = default);
         Task<Dictionary<string, T>> GetAll<T>(string pattern);
         Task<bool> Set<T>(string key, T data);
         Task Subscribe(string channel, Action<RedisChannel, RedisValue> action);
@@ -32,12 +32,12 @@ namespace CardboardBox.Redis
             this.commonConfig = commonConfig;
         }
 
-        public async Task<T> Get<T>(string key)
+        public async Task<T> Get<T>(string key, T def = default)
         {
             var value = await Database.StringGetAsync(key);
 
             if (value.IsNullOrEmpty)
-                return default(T);
+                return def;
 
             return JsonConvert.DeserializeObject<T>(value);
         }
