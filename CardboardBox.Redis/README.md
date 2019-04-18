@@ -9,49 +9,49 @@ using System.Threading.Tasks;
 
 namespace SomeApplication
 {
-	public class Program
-	{
-		private readonly IRedisRepo repo;
+    public class Program
+    {
+        private readonly IRedisRepo repo;
 
-		public Program(IRedisRepo repo)
-		{
-			this.repo = repo;
-		}
+        public Program(IRedisRepo repo)
+        {
+            this.repo = repo;
+        }
 
-		public async Task Start()
-		{
-			var key = "redis:somemodel";
-			var something = await repo.Get<SomeModel>(key);
+        public async Task Start()
+        {
+            var key = "redis:somemodel";
+            var something = await repo.Get<SomeModel>(key);
 
-			Console.WriteLine(something == null); //true - if running for first time
-			
-			var input = new SomeModel { Name = "Bob", Id = 1 };
-			if (!await repo.Set(key, input))
-			{
-				Console.WriteLine("Something went wrong");
-				return;
-			}
+            Console.WriteLine(something == null); //true - if running for first time
+            
+            var input = new SomeModel { Name = "Bob", Id = 1 };
+            if (!await repo.Set(key, input))
+            {
+                Console.WriteLine("Something went wrong");
+                return;
+            }
 
-			something = await repo.Get<SomeModel>(key);
-			Console.WriteLine(something.Name); //Bob
-		}
+            something = await repo.Get<SomeModel>(key);
+            Console.WriteLine(something.Name); //Bob
+        }
 
-		public static void Main(string[] args)
-		{
-			DependencyInjection.ServiceCollection()
-							   .UseRedis("localhost")
-							   .Build<Program>()
-							   .Start()
-							   .GetAwaiter()
-							   .GetResult();
-		}
-	}
+        public static void Main(string[] args)
+        {
+            DependencyInjection.ServiceCollection()
+                               .UseRedis("localhost")
+                               .Build<Program>()
+                               .Start()
+                               .GetAwaiter()
+                               .GetResult();
+        }
+    }
 
-	public class SomeModel
-	{
-		public string Name { get; set; }
-		public int Id { get; set; }
-	}
+    public class SomeModel
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
+    }
 }
 ```
 
@@ -62,40 +62,40 @@ using System.Threading.Tasks;
 
 namespace SomeApplication
 {
-	public class Program
-	{
-		public static Task Main(string[] args)
-		{
-			var config = new RedisConfig
-			{
-				Host = "localhost"
-			};
+    public class Program
+    {
+        public static Task Main(string[] args)
+        {
+            var config = new RedisConfig
+            {
+                Host = "localhost"
+            };
 
-			var connection = new RedisConnection(config);
-			var repo = new RedisRepo(connection, config);
+            var connection = new RedisConnection(config);
+            var repo = new RedisRepo(connection, config);
 
-			var key = "redis:somemodel";
-			var something = await repo.Get<SomeModel>(key);
+            var key = "redis:somemodel";
+            var something = await repo.Get<SomeModel>(key);
 
-			Console.WriteLine(something == null); //true - if running for first time
-			
-			var input = new SomeModel { Name = "Bob", Id = 1 };
-			if (!await repo.Set(key, input))
-			{
-				Console.WriteLine("Something went wrong");
-				return;
-			}
+            Console.WriteLine(something == null); //true - if running for first time
+            
+            var input = new SomeModel { Name = "Bob", Id = 1 };
+            if (!await repo.Set(key, input))
+            {
+                Console.WriteLine("Something went wrong");
+                return;
+            }
 
-			something = await repo.Get<SomeModel>(key);
-			Console.WriteLine(something.Name); //Bob
-		}
-	}
+            something = await repo.Get<SomeModel>(key);
+            Console.WriteLine(something.Name); //Bob
+        }
+    }
 
-	public class SomeModel
-	{
-		public string Name { get; set; }
-		public int Id { get; set; }
-	}
+    public class SomeModel
+    {
+        public string Name { get; set; }
+        public int Id { get; set; }
+    }
 }
 ```
 
