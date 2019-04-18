@@ -9,3 +9,14 @@ A collection of random tidbits of code that warrant throwing under a common name
 * CardboardBox.WebApi - Helpful extensions for spinning up web api's quicker than ever
 * CardboardBox.Extensions - Linq, collection and other extensions
 * CardboardBox - Single library referencing the majority of the others under 1 project
+
+## Use & Installation
+Currently, I do not have a Nuget Package on [NuGet](https://nuget.org) for this library. I'm still deciding how many different packages I should do for the functionality. 
+
+My current thoughts are:
+* CardboardBox.Setup - For the CardboardBox.Setup library
+* CardboardBox.Gdi - For both CardboardBox.Gdi and CardboardBox.Gdi.ColorThief
+* CardboardBox.Redis - For the CardboardBox.Redis library (references CardboardBox.Setup)
+* CardboardBox - linking all other packages together
+
+I don't know if I'm ready to publish WebApi or Extensions yet, I might want to re-work them.
