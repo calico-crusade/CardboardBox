@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CardboardBox.Extensions\CardboardBox.Extensions.csproj" />
+    <ProjectReference Include="..\CardboardBox.Gdi.ColorThief\CardboardBox.Gdi.ColorThief.csproj" />
+    <ProjectReference Include="..\CardboardBox.Gdi\CardboardBox.Gdi.csproj" />
+    <ProjectReference Include="..\CardboardBox.Redis\CardboardBox.Redis.csproj" />
+    <ProjectReference Include="..\CardboardBox.Setup\CardboardBox.Setup.csproj" />
+    <ProjectReference Include="..\CardboardBox.WebApi\CardboardBox.WebApi.csproj" />
+  </ItemGroup>
+
+</Project>
