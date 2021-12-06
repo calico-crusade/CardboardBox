@@ -9,14 +9,14 @@ namespace CardboardBox.Redis
 
     public class RedisConnection : IRedisConnection
     {
-        private static ConnectionMultiplexer connection;
-        private readonly IRedisConfig commonConfig;
+        private readonly IRedisConfig _config;
+        private ConnectionMultiplexer? _connection;
 
-        public ConnectionMultiplexer Connection => connection ?? (connection = GetConnection());
+        public ConnectionMultiplexer Connection => _connection ??= GetConnection();
 
         public RedisConnection(IRedisConfig commonConfig)
         {
-            this.commonConfig = commonConfig;
+            _config = commonConfig;
         }
 
         /// <summary>
@@ -27,10 +27,10 @@ namespace CardboardBox.Redis
         {
             var options = new ConfigurationOptions
             {
-                Password = commonConfig?.Password,
+                Password = _config?.Password,
                 AllowAdmin = true
             };
-            options.EndPoints.Add(commonConfig?.Host ?? "localhost");
+            options.EndPoints.Add(_config?.Host ?? "localhost");
 
             return ConnectionMultiplexer.Connect(options);
         }

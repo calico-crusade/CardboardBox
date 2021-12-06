@@ -1,19 +1,16 @@
-﻿using Newtonsoft.Json;
-using StackExchange.Redis;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using StackExchange.Redis;
 
 namespace CardboardBox.Redis
 {
+    using Json;
+
     public interface IRedisRepo
     {
-        Task<T> Get<T>(string key, T def = default);
-        Task<Dictionary<string, T>> GetAll<T>(string pattern);
+        Task<T?> Get<T>(string key, T? def = default);
+        Task<Dictionary<string, T?>> GetAll<T>(string pattern);
         Task<bool> Set<T>(string key, T data);
         Task Subscribe(string channel, Action<RedisChannel, RedisValue> action);
-        Task Subscribe<T>(string channel, Action<RedisChannel, T> action);
+        Task Subscribe<T>(string channel, Action<RedisChannel, T?> action);
         Task<bool> Delete(string key);
         Task Publish(string channel, RedisValue message);
         Task Publish<T>(string channel, T result);
@@ -21,33 +18,36 @@ namespace CardboardBox.Redis
 
     public class RedisRepo : IRedisRepo
     {
-        private readonly IRedisConnection redisConnection;
-        private readonly IRedisConfig commonConfig;
-        private IDatabase Database => redisConnection?.Connection?.GetDatabase();
-        private ISubscriber Subscriber => redisConnection?.Connection?.GetSubscriber();
+        private readonly IRedisConnection _con;
+        private readonly IRedisConfig _config;
+        private readonly IJsonService _json;
 
-        public RedisRepo(IRedisConnection redisConnection, IRedisConfig commonConfig)
+        private IDatabase Database => _con.Connection.GetDatabase();
+        private ISubscriber Subscriber => _con.Connection.GetSubscriber();
+
+        public RedisRepo(
+            IRedisConnection con, 
+            IRedisConfig config,
+            IJsonService json)
         {
-            this.redisConnection = redisConnection;
-            this.commonConfig = commonConfig;
+            _con = con;
+            _config = config;
+            _json = json;
         }
 
-        public async Task<T> Get<T>(string key, T def = default)
+        public async Task<T?> Get<T>(string key, T? def = default)
         {
             var value = await Database.StringGetAsync(key);
-
-            if (value.IsNullOrEmpty)
-                return def;
-
-            return JsonConvert.DeserializeObject<T>(value);
+            if (value.IsNullOrEmpty) return def;
+            return _json.Deserialize<T>(value);
         }
 
-        public async Task<Dictionary<string, T>> GetAll<T>(string pattern)
+        public async Task<Dictionary<string, T?>> GetAll<T>(string pattern)
         {
-            var server = redisConnection.Connection.GetServer(redisConnection.Connection.GetEndPoints()[0]);
-            var keys = server.Keys(0, pattern, commonConfig.PageSize).ToArray();
+            var server = _con.Connection.GetServer(_con.Connection.GetEndPoints()[0]);
+            var keys = server.Keys(0, pattern, _config.PageSize).ToArray();
 
-            var dic = new Dictionary<string, T>();
+            var dic = new Dictionary<string, T?>();
 
             foreach (var key in keys)
                 dic.Add(key, await Get<T>(key));
@@ -55,35 +55,16 @@ namespace CardboardBox.Redis
             return dic;
         }
 
-        public async Task<bool> Set<T>(string key, T data)
-        {
-            var str = JsonConvert.SerializeObject(data);
-            return await Database.StringSetAsync(key, str);
-        }
+        public Task<bool> Set<T>(string key, T data) => Database.StringSetAsync(key, _json.Serialize(data));
 
-        public async Task Subscribe(string channel, Action<RedisChannel, RedisValue> action)
-        {
-            await Subscriber.SubscribeAsync(channel, action);
-        }
+        public Task Subscribe(string channel, Action<RedisChannel, RedisValue> action) => Subscriber.SubscribeAsync(channel, action);
 
-        public async Task Subscribe<T>(string channel, Action<RedisChannel, T> action)
-        {
-            await Subscribe(channel, (c, v) => action(c, JsonConvert.DeserializeObject<T>(v)));
-        }
+        public Task Subscribe<T>(string channel, Action<RedisChannel, T?> action) => Subscribe(channel, (c, v) => action(c, _json.Deserialize<T>(v)));
 
-        public async Task<bool> Delete(string key)
-        {
-            return await Database.KeyDeleteAsync(key);
-        }
+        public Task<bool> Delete(string key) => Database.KeyDeleteAsync(key);
 
-        public async Task Publish(string channel, RedisValue message)
-        {
-            await Subscriber.PublishAsync(channel, message);
-        }
+        public Task Publish(string channel, RedisValue message) => Subscriber.PublishAsync(channel, message);
 
-        public async Task Publish<T>(string channel, T result)
-        {
-            await Subscriber.PublishAsync(channel, JsonConvert.SerializeObject(result));
-        }
+        public Task Publish<T>(string channel, T result) => Subscriber.PublishAsync(channel, _json.Serialize(result));
     }
 }

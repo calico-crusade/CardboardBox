@@ -1,32 +1,41 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 namespace CardboardBox.Redis
 {
-    using Setup;
+	using Json;
 
-    public static class Extensions
-    {
-        public static IDependencyHandle UseRedis(this IDependencyHandle handle, IRedisConfig config)
-        {
-            return handle
-                    .Use(config)
-                    .Use<IRedisConnection, RedisConnection>()
-                    .Use<IRedisRepo, RedisRepo>();
-        }
+	public static class Extensions
+	{
+		public static IServiceCollection AddRedis(this IServiceCollection services, IRedisConfig config)
+		{
+			return services
+				.AddRedisBase()
+				.AddSingleton(config);
+		}
 
-        public static IDependencyHandle UseRedis(this IDependencyHandle handle, Func<IRedisConfig> config)
-        {
-            return handle.UseRedis(config());
-        }
+		public static IServiceCollection AddRedis<T>(this IServiceCollection services) where T: class, IRedisConfig
+		{
+			return services
+				.AddRedisBase()
+				.AddTransient<IRedisConfig, T>();
+		}
 
-        public static IDependencyHandle UseRedis(this IDependencyHandle handle, string host, string password = null, int pagesize = 500000)
-        {
-            return handle.UseRedis(new RedisConfig
-            {
-                Host = host,
-                Password = password,
-                PageSize = pagesize
-            });
-        }
-    }
+		public static IServiceCollection AddRedis(this IServiceCollection services, string host, string password, int pageSize = 500000)
+		{
+			return services.AddRedis(new RedisConfigSettings(host, password, pageSize));
+		}
+
+		public static IServiceCollection AddRedis(this IServiceCollection services)
+		{
+			return services.AddRedis<RedisConfig>();
+		}
+
+		private static IServiceCollection AddRedisBase(this IServiceCollection services)
+		{
+			return services
+				.AddJson()
+				.AddSingleton<IRedisConnection, RedisConnection>()
+				.AddTransient<IRedisRepo, RedisRepo>();
+		}
+	}
 }
