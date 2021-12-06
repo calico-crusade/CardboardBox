@@ -56,7 +56,7 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Commands Nuget Package
-        id: publish_nuget_commands_common
+        id: publish_nuget_commands_json
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Json/CardboardBox.Json.csproj
