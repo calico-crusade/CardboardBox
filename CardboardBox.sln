@@ -3,15 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Discord", "CardboardBox.Discord\CardboardBox.Discord.csproj", "{FFE0232C-D773-4EC1-8156-71909A2B4711}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Discord", "CardboardBox.Discord\CardboardBox.Discord.csproj", "{FFE0232C-D773-4EC1-8156-71909A2B4711}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Http", "CardboardBox.Http\CardboardBox.Http.csproj", "{537376C8-5143-4E0E-BAAB-F2DD03445D22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Http", "CardboardBox.Http\CardboardBox.Http.csproj", "{537376C8-5143-4E0E-BAAB-F2DD03445D22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Gdi", "CardboardBox.Gdi\CardboardBox.Gdi.csproj", "{692677FB-A6EF-446E-BDF9-34574DE080AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Gdi", "CardboardBox.Gdi\CardboardBox.Gdi.csproj", "{692677FB-A6EF-446E-BDF9-34574DE080AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Redis", "CardboardBox.Redis\CardboardBox.Redis.csproj", "{EC4049E8-64FB-4F96-9446-A571F2AA92B0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Redis", "CardboardBox.Redis\CardboardBox.Redis.csproj", "{EC4049E8-64FB-4F96-9446-A571F2AA92B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Json", "CardboardBox.Json\CardboardBox.Json.csproj", "{0AB810F2-C8BE-418E-AFE3-4293D3040D1E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Json", "CardboardBox.Json\CardboardBox.Json.csproj", "{0AB810F2-C8BE-418E-AFE3-4293D3040D1E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6576401C-F7BA-4FEF-BFCD-CBA3D14D7536}"
+	ProjectSection(SolutionItems) = preProject
+		.gitignore = .gitignore
+		LICENSE = LICENSE
+		.github\workflows\main.yml = .github\workflows\main.yml
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

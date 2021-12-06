@@ -6,7 +6,25 @@
     <Nullable>enable</Nullable>
     <Authors>Cardboard</Authors>
     <Company>N/A</Company>
+    <Description>Adds Slash Command Support to Discord.Net</Description>
+    <PackageProjectUrl>https://github.com/calico-crusade/CardboardBox</PackageProjectUrl>
+    <PackageIcon>icon.jpg</PackageIcon>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/calico-crusade/CardboardBox</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>Discord;Application Commands;CardboardBox;Cardboard;SlashCommands;</PackageTags>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\icon.jpg">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="..\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Discord.Net.Labs" Version="3.4.9" />
