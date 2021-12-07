@@ -17,16 +17,16 @@ using CardboardBox.Discord;
 using Microsoft.Extensions.DependencyInjection;
 
 await DiscordBotBuilder.Start()
-	.WithServices(c => 
-	{
-		//Register any dependency injection services
-	})
-	.WithSlashCommands(c =>
-	{
-		//Register any slash commands
-	})
-	.Build()
-	.Login();
+  .WithServices(c => 
+  {
+    //Register any dependency injection services
+  })
+  .WithSlashCommands(c =>
+  {
+    //Register any slash commands
+  })
+  .Build()
+  .Login();
 
 //This is important to stop the console application from closing
 await Task.Delay(-1);
@@ -50,28 +50,28 @@ using Microsoft.Extensions.Logging;
 
 namespace ExampleClient 
 {
-	public class BotCommands 
-	{
-		private readonly ILogger _logger;
+  public class BotCommands 
+  {
+    private readonly ILogger _logger;
 
-		public BotCommands(ILogger<BotCommands> logger)
-		{
-			_logger = logger;
-		}
+    public BotCommands(ILogger<BotCommands> logger)
+    {
+      _logger = logger;
+    }
 
-		[Command("ping", "Checks to see if the bot is alive")]
-		public async Task Ping(SocketSlashCommand cmd)
-		{
-			_logger.LogInformation("The bot is alive!");
-			await cmd.RespondAsync("Pong!", ephemeral: true);
-		}
+    [Command("ping", "Checks to see if the bot is alive")]
+    public async Task Ping(SocketSlashCommand cmd)
+    {
+      _logger.LogInformation("The bot is alive!");
+      await cmd.RespondAsync("Pong!", ephemeral: true);
+    }
 
-		[Command("echo", "Echos the given message")]
-		public async Task Echo(SocketSlashCommand cmd, [Option("The message to echo", true)] string message)
-		{
-			await cmd.Modify($"You said `{message}`.");
-		}
-	}
+    [Command("echo", "Echos the given message")]
+    public async Task Echo(SocketSlashCommand cmd, [Option("The message to echo", true)] string message)
+    {
+      await cmd.Modify($"You said `{message}`.");
+    }
+  }
 }
 ```
 
@@ -81,8 +81,8 @@ Then in your Program.cs, register the `BotCommand` class into your services
 ...
 .WithSlashCommands(c => 
 {
-	//Register the commands with the bot
-	c.With<BotCommands>();
+  //Register the commands with the bot
+  c.With<BotCommands>();
 })
 ...
 ```
@@ -98,27 +98,27 @@ using Microsoft.Extensions.Logging;
 
 namespace ExampleClient 
 {
-	public class BotCommands 
-	{
-		private readonly ILogger _logger;
+  public class BotCommands 
+  {
+    private readonly ILogger _logger;
 
-		public BotCommands(ILogger<BotCommands> logger)
-		{
-			_logger = logger;
-		}
+    public BotCommands(ILogger<BotCommands> logger)
+    {
+      _logger = logger;
+    }
 
-		public async Task Ping(SocketSlashCommand cmd)
-		{
-			_logger.LogInformation("The bot is alive!");
-			await cmd.RespondAsync("Pong!", ephemeral: true);
-		}
+    public async Task Ping(SocketSlashCommand cmd)
+    {
+      _logger.LogInformation("The bot is alive!");
+      await cmd.RespondAsync("Pong!", ephemeral: true);
+    }
 
-		public async Task Echo(SocketSlashCommand cmd)
-		{
-			var message = (string?)cmd.Data.Options.FirstOrDefault()?.Value;
-			await cmd.Modify($"You said `{message}`.");
-		}
-	}
+    public async Task Echo(SocketSlashCommand cmd)
+    {
+      var message = (string?)cmd.Data.Options.FirstOrDefault()?.Value;
+      await cmd.Modify($"You said `{message}`.");
+    }
+  }
 }
 ```
 
@@ -128,17 +128,17 @@ Then in your Program.cs, register the `BotCommands.Echo` and `BotCommands.Ping` 
 ...
 .WithSlashCommands(c => 
 {
-	//Register the commands with the bot
-	c.With<BotCommands>("ping", t => t.Ping, b => 
-	{
-		b.WithDescription("Checks to see if the bot is alive");
-	});
+  //Register the commands with the bot
+  c.With<BotCommands>("ping", t => t.Ping, b => 
+  {
+    b.WithDescription("Checks to see if the bot is alive");
+  });
 
-	c.With<BotCommands>("echo", t => t.Echo, b => 
-	{
-		b.WithDescription("Echos the given message")
-		 .AddOption("message", Discord.ApplicationCommandOptionType.String, "The message to echo", true);
-	});
+  c.With<BotCommands>("echo", t => t.Echo, b => 
+  {
+    b.WithDescription("Echos the given message")
+     .AddOption("message", Discord.ApplicationCommandOptionType.String, "The message to echo", true);
+  });
 })
 ...
 ```
