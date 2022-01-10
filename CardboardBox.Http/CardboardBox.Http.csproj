@@ -7,7 +7,6 @@
     <Authors>Cardboard</Authors>
     <PackageProjectUrl>https://github.com/calico-crusade/CardboardBox</PackageProjectUrl>
     <PackageIcon>icon.jpg</PackageIcon>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/calico-crusade/CardboardBox</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Http;HttpClientFactory;CardboardBox;Cardboard</PackageTags>
@@ -30,13 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CardboardBox.Json\CardboardBox.Json.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
   </ItemGroup>
 
 </Project>
