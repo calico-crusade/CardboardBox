@@ -97,6 +97,13 @@ namespace CardboardBox.Http
 		/// <typeparam name="TFailure">The type to use for a failed request</typeparam>
 		/// <returns>A task representing the <see cref="HttpStatusResult{TSuccess, TFailure}"/> which contains the results of the request </returns>
 		Task<HttpStatusResult<TSuccess, TFailure>> Result<TSuccess, TFailure>();
+
+		/// <summary>
+		/// Executes the HTTP request and returns the results
+		/// </summary>
+		/// <returns>The <see cref="HttpResponseMessage"/> results</returns>
+		/// <exception cref="ArgumentNullException">Thrown if the URI is not set for the request</exception>
+		Task<HttpResponseMessage?> Result();
 	}
 
 	/// <summary>
@@ -259,10 +266,35 @@ namespace CardboardBox.Http
 		}
 
 		/// <summary>
+		/// Executes the HTTP request and returns the results
+		/// </summary>
+		/// <returns>The <see cref="HttpResponseMessage"/> results</returns>
+		/// <exception cref="ArgumentNullException">Thrown if the URI is not set for the request</exception>
+		public async Task<HttpResponseMessage?> Result()
+		{
+			try
+			{
+				if (string.IsNullOrEmpty(_uri))
+					throw new ArgumentNullException(nameof(_uri));
+
+				using var client = _factory.CreateClient();
+				return await MakeRequest(client);
+			}
+			catch (Exception ex)
+			{
+				_logger.LogError(ex, $"An error occurred while running {_uri}");
+				if (_failWithNull) return null;
+
+				throw;
+			}
+		}
+
+		/// <summary>
 		/// Executes the HTTP request and returns the results as the given type
 		/// </summary>
 		/// <typeparam name="T">The type to deserialize the results to</typeparam>
 		/// <returns>A task representing the results of the request</returns>
+		/// <exception cref="ArgumentNullException">Thrown if the URI is not set for the request</exception>
 		public async Task<T?> Result<T>()
 		{
 			try
