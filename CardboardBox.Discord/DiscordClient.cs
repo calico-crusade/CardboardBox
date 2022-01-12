@@ -51,6 +51,7 @@ namespace CardboardBox.Discord
 		private readonly ISlashReflectionService _slashRef;
 		private readonly DiscordSocketClient _client;
 		private readonly CommandService _commands;
+		private readonly IReactionService _reactions;
 
 		public string Token => _config["Discord:Token"];
 
@@ -61,7 +62,8 @@ namespace CardboardBox.Discord
 			IDiscordSlashCommandBuilderService slash,
 			ISlashReflectionService slashRef,
 			DiscordSocketClient client,
-			CommandService commands)
+			CommandService commands,
+			IReactionService reactions)
 		{
 			_client = client;
 			_commands = commands;
@@ -70,6 +72,7 @@ namespace CardboardBox.Discord
 			_logger = logger;
 			_slash = slash;
 			_slashRef = slashRef;
+			_reactions = reactions;
 		}
 
 		/// <summary>
@@ -82,11 +85,25 @@ namespace CardboardBox.Discord
 			_client.Ready += Client_Ready;
 			_client.MessageReceived += Client_MessageReceived;
 			_client.SlashCommandExecuted += Client_SlashCommandExecuted;
+			_client.ReactionAdded += Client_ReactionAdded;
 
 			await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
 			await _client.LoginAsync(TokenType.Bot, Token);
 			await _client.StartAsync();
+		}
+
+		/// <summary>
+		/// Handler for when a reaction is added to a message
+		/// </summary>
+		/// <param name="message">The message that was reacted to</param>
+		/// <param name="channel">The channel the message was reacted in</param>
+		/// <param name="reaction">The reaction that occurred</param>
+		/// <returns>A task representing the completion of the reaction handling</returns>
+		public Task Client_ReactionAdded(Cacheable<IUserMessage, ulong> message, Cacheable<IMessageChannel, ulong> channel, SocketReaction reaction)
+		{
+			_reactions.ReactionAdded(message, channel, reaction);
+			return Task.CompletedTask;
 		}
 
 		/// <summary>

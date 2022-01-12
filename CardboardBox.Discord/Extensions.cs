@@ -10,6 +10,25 @@ namespace CardboardBox.Discord
 	public static class Extensions
 	{
 		/// <summary>
+		/// Responds to the interaction message and returns the original message
+		/// </summary>
+		/// <param name="cmd"></param>
+		/// <param name="text"></param>
+		/// <param name="embeds"></param>
+		/// <param name="isTTS"></param>
+		/// <param name="ephemeral"></param>
+		/// <param name="allowedMentions"></param>
+		/// <param name="components"></param>
+		/// <param name="embed"></param>
+		/// <param name="options"></param>
+		/// <returns>The original interaction message</returns>
+		public static async Task<RestInteractionMessage> Respond(this SocketSlashCommand cmd, string? text = null, Embed[]? embeds = null, bool isTTS = false, bool ephemeral = false, AllowedMentions? allowedMentions = null, MessageComponent? components = null, Embed? embed = null, RequestOptions? options = null)
+		{
+			await cmd.RespondAsync(text, embeds, isTTS, ephemeral, allowedMentions, components, embed, options);
+			return await cmd.GetOriginalResponseAsync();
+		}
+
+		/// <summary>
 		/// Modifies the exisitng socket message with the given content
 		/// </summary>
 		/// <param name="cmd">The slash command that triggered the request</param>

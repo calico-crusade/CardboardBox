@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.github\workflows\main.yml = .github\workflows\main.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Discord.TestCli", "CardboardBox.Discord.TestCli\CardboardBox.Discord.TestCli.csproj", "{1A5F2229-6046-4EBA-9265-0A859880581B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -46,6 +48,10 @@ Global
 		{0AB810F2-C8BE-418E-AFE3-4293D3040D1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0AB810F2-C8BE-418E-AFE3-4293D3040D1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0AB810F2-C8BE-418E-AFE3-4293D3040D1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A5F2229-6046-4EBA-9265-0A859880581B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A5F2229-6046-4EBA-9265-0A859880581B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A5F2229-6046-4EBA-9265-0A859880581B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A5F2229-6046-4EBA-9265-0A859880581B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

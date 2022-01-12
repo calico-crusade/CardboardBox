@@ -147,7 +147,8 @@ namespace CardboardBox.Discord
 				.AddSingleton<DiscordSocketClient>()
 				.AddSingleton<CommandService>()
 				.AddSingleton<IDiscordClient, DiscordClient>()
-				.AddSingleton<ISlashReflectionService, SlashReflectionService>();
+				.AddSingleton<ISlashReflectionService, SlashReflectionService>()
+				.AddSingleton<IReactionService, ReactionService>();
 
 			foreach (var (_, instance) in _slash?.Commands ?? new())
 			{
