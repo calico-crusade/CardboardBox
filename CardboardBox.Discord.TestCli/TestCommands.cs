@@ -6,7 +6,7 @@ namespace CardboardBox.Discord.TestCli
 {
 	public class TestCommands
 	{
-		public const ulong DISCORD_TEST_GUILD_ID = 829412577426538537;
+		public const ulong DISCORD_TEST_GUILD_ID = 318239174530695169; //829412577426538537;
 
 		private readonly IReactionService _reactions;
 		private readonly IComponentService _component;
