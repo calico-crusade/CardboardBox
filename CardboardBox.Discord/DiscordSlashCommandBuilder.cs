@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using CardboardBox.Discord.Components;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
@@ -44,6 +45,20 @@ namespace CardboardBox.Discord
 		/// <param name="type">The type of class to register the commands for</param>
 		/// <returns>The instance of <see cref="IDiscordSlashCommandBuilder"/> for method chaining</returns>
 		IDiscordSlashCommandBuilder With(Type type);
+
+		/// <summary>
+		/// Registers the given message component type with the service collection
+		/// </summary>
+		/// <typeparam name="T">The type representing the component handler</typeparam>
+		/// <returns>The instance of <see cref="IDiscordSlashCommandBuilder"/> for method chaining</returns>
+		IDiscordSlashCommandBuilder WithComponent<T>() where T : ComponentHandler;
+
+		/// <summary>
+		/// Registers the given message component type with the service collection
+		/// </summary>
+		/// <param name="type">The type representing the component handler</param>
+		/// <returns>The instance of <see cref="IDiscordSlashCommandBuilder"/> for method chaining</returns>
+		IDiscordSlashCommandBuilder WithComponent(Type type);
 	}
 
 	/// <summary>
@@ -65,12 +80,16 @@ namespace CardboardBox.Discord
 	public class DiscordSlashCommandBuilder : IDiscordSlashCommandBuilderService
 	{
 		private readonly IServiceCollection _services;
+		private readonly IComponentHandlerService _components;
 
 		private readonly List<Type> _registeredTypes = new();
 
-		public DiscordSlashCommandBuilder(IServiceCollection services)
+		public DiscordSlashCommandBuilder(
+			IServiceCollection services,
+			IComponentHandlerService components)
 		{
 			_services = services;
+			_components = components;
 		}
 
 		/// <summary>
@@ -179,6 +198,25 @@ namespace CardboardBox.Discord
 		/// <typeparam name="T">The type of class to register the commands for</typeparam>
 		/// <returns>The instance of <see cref="IDiscordSlashCommandBuilder"/> for method chaining</returns>
 		public IDiscordSlashCommandBuilder With<T>() => With(typeof(T));
+
+		/// <summary>
+		/// Registers the given message component type with the service collection
+		/// </summary>
+		/// <typeparam name="T">The type representing the component handler</typeparam>
+		/// <returns>The instance of <see cref="IDiscordSlashCommandBuilder"/> for method chaining</returns>
+		public IDiscordSlashCommandBuilder WithComponent<T>() where T: ComponentHandler => WithComponent(typeof(T));
+
+		/// <summary>
+		/// Registers the given message component type with the service collection
+		/// </summary>
+		/// <param name="type">The type representing the component handler</param>
+		/// <returns>The instance of <see cref="IDiscordSlashCommandBuilder"/> for method chaining</returns>
+		public IDiscordSlashCommandBuilder WithComponent(Type type)
+		{
+			_components.RegisterHandlers(type);
+			RegisterType(type);
+			return this;
+		}
 
 		/// <summary>
 		/// Registers the given type with the dependency injection service collection

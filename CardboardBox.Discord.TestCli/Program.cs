@@ -4,7 +4,8 @@ using CardboardBox.Discord.TestCli;
 await DiscordBotBuilder.Start()
 	.WithSlashCommands(c =>
 	{
-		c.With<TestCommands>();
+		c.With<TestCommands>()
+		 .WithComponent<SkyrimButtons>();
 	})
 	.Build()
 	.Login();

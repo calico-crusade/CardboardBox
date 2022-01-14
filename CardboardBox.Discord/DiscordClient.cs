@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using CardboardBox.Discord.Components;
+using Discord;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
@@ -52,6 +53,7 @@ namespace CardboardBox.Discord
 		private readonly DiscordSocketClient _client;
 		private readonly CommandService _commands;
 		private readonly IReactionService _reactions;
+		private readonly IComponentService _buttons;
 
 		public string Token => _config["Discord:Token"];
 
@@ -63,7 +65,8 @@ namespace CardboardBox.Discord
 			ISlashReflectionService slashRef,
 			DiscordSocketClient client,
 			CommandService commands,
-			IReactionService reactions)
+			IReactionService reactions,
+			IComponentService buttons)
 		{
 			_client = client;
 			_commands = commands;
@@ -73,6 +76,7 @@ namespace CardboardBox.Discord
 			_slash = slash;
 			_slashRef = slashRef;
 			_reactions = reactions;
+			_buttons = buttons;
 		}
 
 		/// <summary>
@@ -86,11 +90,35 @@ namespace CardboardBox.Discord
 			_client.MessageReceived += Client_MessageReceived;
 			_client.SlashCommandExecuted += Client_SlashCommandExecuted;
 			_client.ReactionAdded += Client_ReactionAdded;
+			_client.ButtonExecuted += Client_ButtonExecuted;
+			_client.SelectMenuExecuted += Client_SelectMenuExecuted;
 
 			await _commands.AddModulesAsync(Assembly.GetEntryAssembly(), _services);
 
 			await _client.LoginAsync(TokenType.Bot, Token);
 			await _client.StartAsync();
+		}
+
+		/// <summary>
+		/// Handler for select menu executions
+		/// </summary>
+		/// <param name="arg">The select menu handler</param>
+		/// <returns>A task representing the completion of the reaction handling</returns>
+		public Task Client_SelectMenuExecuted(SocketMessageComponent arg)
+		{
+			_buttons.HandleComponent(arg);
+			return Task.CompletedTask;
+		}
+
+		/// <summary>
+		/// Handler for button executions
+		/// </summary>
+		/// <param name="arg">The button handler</param>
+		/// <returns>A task representing the completion of the reaction handling</returns>
+		public Task Client_ButtonExecuted(SocketMessageComponent arg)
+		{
+			_buttons.HandleComponent(arg);
+			return Task.CompletedTask;
 		}
 
 		/// <summary>

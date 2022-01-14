@@ -1,4 +1,5 @@
-﻿using CardboardBox.Http;
+﻿using CardboardBox.Discord.Components;
+using CardboardBox.Http;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
@@ -53,6 +54,7 @@ namespace CardboardBox.Discord
 		private readonly IServiceCollection _services;
 
 		private DiscordSlashCommandBuilder? _slash;
+		private IComponentHandlerService _components;
 
 		private bool LoggingAdded = false;
 		private bool ConfigAdded = false;
@@ -61,6 +63,7 @@ namespace CardboardBox.Discord
 		private DiscordBotBuilder(IServiceCollection services)
 		{
 			_services = services;
+			_components = new ComponentHandlerService();
 		}
 
 		/// <summary>
@@ -112,7 +115,7 @@ namespace CardboardBox.Discord
 		{
 			if (SlashAdded) throw new Exception("Slash commands have already been added. Please only register them once.");
 
-			_slash = new DiscordSlashCommandBuilder(_services);
+			_slash = new DiscordSlashCommandBuilder(_services, _components);
 			config?.Invoke(_slash);
 
 			_services.AddSingleton<IDiscordSlashCommandBuilderService>(_slash);
@@ -148,7 +151,9 @@ namespace CardboardBox.Discord
 				.AddSingleton<CommandService>()
 				.AddSingleton<IDiscordClient, DiscordClient>()
 				.AddSingleton<ISlashReflectionService, SlashReflectionService>()
-				.AddSingleton<IReactionService, ReactionService>();
+				.AddSingleton<IReactionService, ReactionService>()
+				.AddSingleton<IComponentService, ComponentService>()
+				.AddSingleton(_components);
 
 			foreach (var (_, instance) in _slash?.Commands ?? new())
 			{

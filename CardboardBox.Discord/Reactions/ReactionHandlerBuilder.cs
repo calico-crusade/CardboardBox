@@ -169,7 +169,7 @@ namespace CardboardBox.Discord.Reactions
 		/// <returns>The current instance of <see cref="IReactionHandlerBuilder"/> for method chaining</returns>
 		public IReactionHandlerBuilder React(string emote, Func<SocketReaction, Task> react, Func<SocketReaction, bool>? filter = null)
 		{
-			var e = GetEmote(emote);
+			var e = emote.GetEmote();
 			return React(e, react, filter);
 		}
 
@@ -267,23 +267,6 @@ namespace CardboardBox.Discord.Reactions
 			_onFinished();
 
 			return true;
-		}
-
-		/// <summary>
-		/// Returns the correct <see cref="IEmote"/> for the given emote
-		/// </summary>
-		/// <param name="emote">The string representation of the emote</param>
-		/// <returns>The correct <see cref="IEmote"/></returns>
-		/// <exception cref="InvalidDataException">Thrown if the emote is not of type <see cref="Emote"/> or <see cref="Emoji"/></exception>
-		public IEmote GetEmote(string emote)
-		{
-			if (Emote.TryParse(emote, out var e))
-				return e;
-
-			if (Emoji.TryParse(emote, out var ej))
-				return ej;
-
-			throw new InvalidDataException($"'{emote}' is not a valid emote or emoji");
 		}
 	}
 }
