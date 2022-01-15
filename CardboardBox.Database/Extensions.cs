@@ -8,17 +8,17 @@ namespace CardboardBox.Database
 {
 	public static class Extensions
 	{
-		public static IServiceCollection DapperCamelCase(this IServiceCollection service, Action<FluentMapConfiguration>? config = null)
+		public static IServiceCollection DapperCamelCase(this IServiceCollection service, Action<FluentConventionConfiguration>? config = null)
 		{
 			return DapperFluentMap<CamelCaseMap>(service, config);
 		}
 
-		public static IServiceCollection DapperFluentMap<T>(this IServiceCollection service, Action<FluentMapConfiguration>? config = null) where T: Convention, new()
+		public static IServiceCollection DapperFluentMap<T>(this IServiceCollection service, Action<FluentConventionConfiguration>? config = null) where T: Convention, new()
 		{
 			return DapperFluentMap(service, t =>
 			{
-				t.AddConvention<T>();
-				config?.Invoke(t);
+				var a = t.AddConvention<T>();
+				config?.Invoke(a);
 			});
 		}
 
