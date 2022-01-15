@@ -1,13 +1,13 @@
 ﻿namespace CardboardBox.Database
 {
-	public interface IMongoConfig
+	public interface IMongoConfig<T>
 	{
 		string ConnectionString { get; }
 		string DatabaseName { get; }
 		string CollectionName { get; }
 	}
 
-	public class MongoConfig : IMongoConfig
+	public class MongoConfig<T> : IMongoConfig<T>
 	{
 		public string ConnectionString { get; set; } = "";
 		public string DatabaseName { get; set; } = "";

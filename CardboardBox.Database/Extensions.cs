@@ -72,14 +72,14 @@ namespace CardboardBox.Database
 			}, moreThanOne);
 		}
 
-		public static IServiceCollection AddMongo<T, TConfig>(this IServiceCollection services) where TConfig : class, IMongoConfig
+		public static IServiceCollection AddMongo<T, TConfig>(this IServiceCollection services) where TConfig : class, IMongoConfig<T>
 		{
 			return services
-				.AddTransient<IMongoConfig, TConfig>()
+				.AddTransient<IMongoConfig<T>, TConfig>()
 				.AddTransient<IMongoService<T>, MongoService<T>>();
 		}
 
-		public static IServiceCollection AddMongo<T>(this IServiceCollection services, IMongoConfig config)
+		public static IServiceCollection AddMongo<T>(this IServiceCollection services, IMongoConfig<T> config)
 		{
 			return services
 				.AddSingleton(config)
@@ -88,7 +88,7 @@ namespace CardboardBox.Database
 
 		public static IServiceCollection AddMongo<T>(this IServiceCollection services, string connectionString, string databaseName, string collectionName)
 		{
-			return AddMongo<T>(services, new MongoConfig
+			return AddMongo<T>(services, new MongoConfig<T>
 			{
 				ConnectionString = connectionString,
 				DatabaseName = databaseName,

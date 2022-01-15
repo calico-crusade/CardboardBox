@@ -25,7 +25,7 @@ namespace CardboardBox.Database
 
 	public class MongoService<T> : MongoService, IMongoService<T>
 	{
-		private readonly IMongoConfig _config;
+		private readonly IMongoConfig<T> _config;
 
 		public string DatabaseName => _config.DatabaseName;
 
@@ -39,7 +39,7 @@ namespace CardboardBox.Database
 
 		public FilterDefinitionBuilder<T> Filter => Builders<T>.Filter;
 
-		public MongoService(IMongoConfig config)
+		public MongoService(IMongoConfig<T> config)
 		{
 			_config = config;
 		}
