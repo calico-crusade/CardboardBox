@@ -19,6 +19,13 @@ namespace CardboardBox.Discord
 		/// </summary>
 		/// <param name="config">The configuration action</param>
 		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
+		IDiscordBotBuilder WithEventHandling(Action<IDiscordEventHandler> config);
+
+		/// <summary>
+		/// Optionally configures client event handlers
+		/// </summary>
+		/// <param name="config">The configuration action</param>
+		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
 		IDiscordBotBuilder WithHandlers(Action<DiscordSocketClient> config);
 
 		/// <summary>
@@ -67,6 +74,7 @@ namespace CardboardBox.Discord
 	{
 		private readonly IServiceCollection _services;
 		private readonly DiscordSocketClient _client;
+		private readonly IDiscordEventHandler _handler;
 
 		private DiscordSlashCommandBuilder? _slash;
 		private IComponentHandlerService _components;
@@ -80,7 +88,20 @@ namespace CardboardBox.Discord
 			_services = services;
 			_components = new ComponentHandlerService();
 			_client = client;
+			_handler = new DiscordEventHandler();
 		}
+
+		/// <summary>
+		/// Optionally configures client event handlers
+		/// </summary>
+		/// <param name="config">The configuration action</param>
+		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
+		public IDiscordBotBuilder WithEventHandling(Action<IDiscordEventHandler> config)
+		{
+			config?.Invoke(_handler);
+			return this;
+		}
+
 
 		/// <summary>
 		/// Optionally configures client event handlers
@@ -188,6 +209,7 @@ namespace CardboardBox.Discord
 			_services
 				.AddCardboardHttp()
 				.AddSingleton(_client ?? new())
+				.AddSingleton(_handler)
 				.AddSingleton<CommandService>()
 				.AddSingleton<IDiscordClient, DiscordClient>()
 				.AddSingleton<ISlashReflectionService, SlashReflectionService>()

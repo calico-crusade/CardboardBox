@@ -54,6 +54,7 @@ namespace CardboardBox.Discord
 		private readonly CommandService _commands;
 		private readonly IReactionService _reactions;
 		private readonly IComponentService _buttons;
+		private readonly IDiscordEventHandler _handler;
 
 		public string Token => _config["Discord:Token"];
 
@@ -66,7 +67,8 @@ namespace CardboardBox.Discord
 			DiscordSocketClient client,
 			CommandService commands,
 			IReactionService reactions,
-			IComponentService buttons)
+			IComponentService buttons,
+			IDiscordEventHandler handler)
 		{
 			_client = client;
 			_commands = commands;
@@ -77,6 +79,7 @@ namespace CardboardBox.Discord
 			_slashRef = slashRef;
 			_reactions = reactions;
 			_buttons = buttons;
+			_handler = handler;
 		}
 
 		/// <summary>
@@ -237,8 +240,10 @@ namespace CardboardBox.Discord
 		{
 			_ = Task.Run(async () => await _slashRef.RegisterSlashCommands()); 
 
-			var username = _client?.CurrentUser?.Username ?? "ANON";
+			var username = _client.CurrentUser?.Username ?? "ANON";
 			_logger.LogInformation($"{username} >> Client Ready!");
+
+			_handler.Execute(_services, _client);
 			return Task.CompletedTask;
 		}
 
