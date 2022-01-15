@@ -15,6 +15,13 @@ namespace CardboardBox.Discord
 	public interface IDiscordBotBuilder
 	{
 		/// <summary>
+		/// Optionally configures client event handlers
+		/// </summary>
+		/// <param name="config">The configuration action</param>
+		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
+		IDiscordBotBuilder WithHandlers(Action<DiscordSocketClient> config);
+
+		/// <summary>
 		/// Optionally configures logging for the discord bot
 		/// </summary>
 		/// <param name="config">The configuration action</param>
@@ -59,6 +66,7 @@ namespace CardboardBox.Discord
 	public class DiscordBotBuilder : IDiscordBotBuilder
 	{
 		private readonly IServiceCollection _services;
+		private readonly DiscordSocketClient _client;
 
 		private DiscordSlashCommandBuilder? _slash;
 		private IComponentHandlerService _components;
@@ -67,10 +75,22 @@ namespace CardboardBox.Discord
 		private bool ConfigAdded = false;
 		private bool SlashAdded = false;
 
-		private DiscordBotBuilder(IServiceCollection services)
+		private DiscordBotBuilder(IServiceCollection services, DiscordSocketClient client)
 		{
 			_services = services;
 			_components = new ComponentHandlerService();
+			_client = client;
+		}
+
+		/// <summary>
+		/// Optionally configures client event handlers
+		/// </summary>
+		/// <param name="config">The configuration action</param>
+		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
+		public IDiscordBotBuilder WithHandlers(Action<DiscordSocketClient> config)
+		{
+			config?.Invoke(_client);
+			return this;
 		}
 
 		/// <summary>
@@ -167,7 +187,7 @@ namespace CardboardBox.Discord
 
 			_services
 				.AddCardboardHttp()
-				.AddSingleton<DiscordSocketClient>()
+				.AddSingleton(_client ?? new())
 				.AddSingleton<CommandService>()
 				.AddSingleton<IDiscordClient, DiscordClient>()
 				.AddSingleton<ISlashReflectionService, SlashReflectionService>()
@@ -191,11 +211,13 @@ namespace CardboardBox.Discord
 		/// Starts the process of building a discord bot
 		/// </summary>
 		/// <param name="services">The optional service collection to use for the bot</param>
+		/// <param name="client">The optional discord client to use for the bot</param>
 		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
-		public static IDiscordBotBuilder Start(IServiceCollection? services = null)
+		public static IDiscordBotBuilder Start(IServiceCollection? services = null, DiscordSocketClient? client = null)
 		{
 			services ??= new ServiceCollection();
-			return new DiscordBotBuilder(services);
+			client ??= new();
+			return new DiscordBotBuilder(services, client);
 		}
 	}
 }
