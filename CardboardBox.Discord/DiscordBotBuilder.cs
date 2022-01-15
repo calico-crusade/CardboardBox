@@ -22,6 +22,13 @@ namespace CardboardBox.Discord
 		IDiscordBotBuilder WithLogging(Action<ILoggingBuilder> config);
 
 		/// <summary>
+		/// Optionally configures the <see cref="IConfiguration"/> with the existing one
+		/// </summary>
+		/// <param name="config">The existing <see cref="IConfiguration"/> object</param>
+		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
+		IDiscordBotBuilder WithConfig(IConfiguration config);
+
+		/// <summary>
 		/// Optionally configures an <see cref="IConfiguration"/> instance from the given json file path
 		/// </summary>
 		/// <param name="file">The file path for the json file</param>
@@ -79,6 +86,18 @@ namespace CardboardBox.Discord
 		}
 
 		/// <summary>
+		/// Optionally configures the <see cref="IConfiguration"/> with the existing one
+		/// </summary>
+		/// <param name="config">The existing <see cref="IConfiguration"/> object</param>
+		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
+		public IDiscordBotBuilder WithConfig(IConfiguration config)
+		{
+			_services.AddSingleton(config);
+			ConfigAdded = true;
+			return this;
+		}
+
+		/// <summary>
 		/// Optionally configures an <see cref="IConfiguration"/> instance from the given json file path
 		/// </summary>
 		/// <param name="file">The file path for the json file</param>
@@ -113,13 +132,14 @@ namespace CardboardBox.Discord
 		/// <returns>The instance of <see cref="IDiscordBotBuilder"/> for method chaining</returns>
 		public IDiscordBotBuilder WithSlashCommands(Action<IDiscordSlashCommandBuilder>? config)
 		{
-			if (SlashAdded) throw new Exception("Slash commands have already been added. Please only register them once.");
+			if (_slash == null)
+			{
+				_slash = new DiscordSlashCommandBuilder(_services, _components);
+				_services.AddSingleton<IDiscordSlashCommandBuilderService>(_slash);
+				SlashAdded = true;
+			}
 
-			_slash = new DiscordSlashCommandBuilder(_services, _components);
 			config?.Invoke(_slash);
-
-			_services.AddSingleton<IDiscordSlashCommandBuilderService>(_slash);
-			SlashAdded = true;
 			return this;
 		}
 

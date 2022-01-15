@@ -26,7 +26,6 @@
 		/// </summary>
 		public Func<Task<T>> Resolver { get; }
 
-
 		/// <summary>
 		/// Default constructor for a cache item
 		/// </summary>
