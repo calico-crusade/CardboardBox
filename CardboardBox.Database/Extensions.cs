@@ -72,6 +72,13 @@ namespace CardboardBox.Database
 			}, moreThanOne);
 		}
 
+		public static IServiceCollection AddMongo<T, TConfig>(this IServiceCollection services) where TConfig : class, IMongoConfig
+		{
+			return services
+				.AddTransient<IMongoConfig, TConfig>()
+				.AddTransient<IMongoService<T>, MongoService<T>>();
+		}
+
 		public static IServiceCollection AddMongo<T>(this IServiceCollection services, IMongoConfig config)
 		{
 			return services
