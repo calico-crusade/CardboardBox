@@ -31,6 +31,20 @@ namespace CardboardBox.Database
 			return services; 
 		}
 
+		public static IServiceCollection AddSqlService<T, TConfig>(this IServiceCollection services, bool moreThanOne = false) 
+			where T : IDbConnection, new()
+			where TConfig : class, ISqlConfig<T>, new()
+		{
+			if (moreThanOne)
+				return services
+					.AddTransient<ISqlService<T>, SqlService<T>>()
+					.AddTransient<ISqlConfig<T>, TConfig>();
+
+			return services
+				.AddTransient<ISqlService, SqlService<T>>()
+				.AddTransient<ISqlConfig<T>, TConfig>();
+		}
+
 		public static IServiceCollection AddSqlService<T>(this IServiceCollection services, ISqlConfig config, bool moreThanOne = false) where T : IDbConnection, new()
 		{
 			var scopedConfig = new SqlConfig<T>
