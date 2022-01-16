@@ -42,12 +42,12 @@ namespace CardboardBox.Discord.Components
 		/// <summary>
 		/// The message that the component is attached to
 		/// </summary>
-		public IMessage Message => _message ?? Component?.Message ?? throw new ArgumentNullException(nameof(_message));
+		public IMessage? Message => _message ?? Component?.Message;
 
 		/// <summary>
 		/// The Id of the <see cref="Message"/> the component is attached to
 		/// </summary>
-		public ulong MessageId => Message.Id;
+		public ulong? MessageId => Message?.Id;
 
 		/// <summary>
 		/// The user who triggered the interaction
