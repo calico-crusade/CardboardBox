@@ -58,6 +58,12 @@ namespace CardboardBox.Discord.TestCli
 			var builder = await _component.Components<SkyrimButtons>(cmd);
 
 			await cmd.Respond("This is a button: " + number, components: builder);
+
+
+			var msg = await cmd.Respond("Hello world");
+			var components = await _component.Components<SkyrimButtons>(msg);
+			await msg.ModifyAsync(t => t.Components = components);
+			//_state.Set(msg, <state>);
 		}
 	}
 	

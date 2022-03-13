@@ -1,4 +1,6 @@
 ﻿using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace CardboardBox.Discord.Components
 {
@@ -83,7 +85,18 @@ namespace CardboardBox.Discord.Components
 		/// <returns>The unique Id</returns>
 		public string IdFromMethod(MethodInfo method)
 		{
-			return $"{method.DeclaringType?.FullName ?? ("NO_DECLARE_TYPE")}.{method.Name}";
+			return CreateMD5($"{method.DeclaringType?.FullName ?? ("NO_DECLARE_TYPE")}.{method.Name}");
+		}
+
+		public string CreateMD5(string input)
+		{
+			// Use input string to calculate MD5 hash
+			using var md5 = MD5.Create();
+			var inputBytes = Encoding.ASCII.GetBytes(input);
+			var hashBytes = md5.ComputeHash(inputBytes);
+
+			return string.Join("", hashBytes.Select(x => x.ToString("X2")));
+
 		}
 	}
 }
