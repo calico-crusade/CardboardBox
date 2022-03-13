@@ -13,6 +13,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>Discord;Application Commands;CardboardBox;Cardboard;SlashCommands;</PackageTags>
     <Version>1.0.7</Version>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 
   <ItemGroup>
