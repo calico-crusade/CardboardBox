@@ -27,8 +27,15 @@ jobs:
         uses: actions/setup-dotnet@v1
         with:
           dotnet-version: '6.0.x'
-
-      # Runs a set of commands using the runners shell
+     
+      - name: Publish Https Nuget Package
+        id: publish_nuget_https
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: CardboardBox.Extensions/CardboardBox.Extensions.csproj
+          TAG_COMMIT: true
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+          
       - name: Publish Main Nuget Package
         id: publish_nuget
         uses: rohith/publish-nuget@v2
@@ -43,6 +50,22 @@ jobs:
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Http/CardboardBox.Http.csproj
+          TAG_COMMIT: true
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+     
+      - name: Publish Https Nuget Package
+        id: publish_nuget_https
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: CardboardBox.Http.Html/CardboardBox.Http.Html.csproj
+          TAG_COMMIT: true
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: Publish Https Nuget Package
+        id: publish_nuget_https
+        uses: rohith/publish-nuget@v2
+        with:
+          PROJECT_FILE_PATH: CardboardBox.Http.Files/CardboardBox.Http.Files.csproj
           TAG_COMMIT: true
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           

@@ -1,7 +1,6 @@
 ﻿using Discord;
 using Discord.Rest;
 using Discord.WebSocket;
-using System.Reflection;
 
 namespace CardboardBox.Discord
 {
@@ -115,7 +114,7 @@ namespace CardboardBox.Discord
 		{
 			var isMilli = time.ToString().Length > 10;
 			if (isMilli)
-				time = time.FromEpoch().ToLocalTime().ToEpoch();
+				time = time.FromEpoch(true).ToLocalTime().ToEpoch();
 			return $"<t:{time}:{format}>";
 		}
 
@@ -128,31 +127,6 @@ namespace CardboardBox.Discord
 		public static string GenerateTimestamp(this DateTime time, string format = "f")
 		{
 			return GenerateTimestamp(time.ToEpoch(), format);
-		}
-
-		/// <summary>
-		/// Converts a date time to unix epoch
-		/// </summary>
-		/// <param name="time">The date time to convert</param>
-		/// <param name="miliseconds">Whether or not to use milliseconds or seconds</param>
-		/// <returns>The unix epoch timestamp</returns>
-		public static long ToEpoch(this DateTime time, bool miliseconds = false)
-		{
-			var epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-			var dt = time.ToUniversalTime() - epoch;
-			return (long)(miliseconds ? dt.TotalMilliseconds : dt.TotalSeconds);
-		}
-
-		/// <summary>
-		/// Converts the unix epoch to a date time
-		/// </summary>
-		/// <param name="time">The unix epoch timestamp</param>
-		/// <returns>The Date time</returns>
-		public static DateTime FromEpoch(this long time)
-		{
-			var isMilli = time.ToString().Length > 10;
-			var epoch = new DateTime(1970, 1, 1, 0, 0, 0, 0);
-			return isMilli ? epoch.AddMilliseconds(time) : epoch.AddSeconds(time);
 		}
 
 		/// <summary>
@@ -179,43 +153,6 @@ namespace CardboardBox.Discord
 		{
 			if (opt == null) return OptBool.NotSet;
 			return opt.Value ? OptBool.True : OptBool.False;
-		}
-
-		/// <summary>
-		/// Sets a _private_ Property Value from a given Object. Uses Reflection.
-		/// Throws a ArgumentOutOfRangeException if the Property is not found.
-		/// </summary>
-		/// <param name="obj">Object from where the Property Value is set</param>
-		/// <param name="propName">Propertyname as string.</param>
-		/// <param name="val">Value to set.</param>
-		/// <returns>PropertyValue</returns>
-		public static void SetPrivatePropertyValue(this object obj, string propName, object val)
-		{
-			Type t = obj.GetType();
-			if (t.GetProperty(propName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance) == null)
-				throw new ArgumentOutOfRangeException("propName", string.Format("Property {0} was not found in Type {1}", propName, obj.GetType().FullName));
-			t.InvokeMember(propName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance, null, obj, new object[] { val });
-		}
-
-		/// <summary>
-		/// Set a private Property Value on a given Object. Uses Reflection.
-		/// </summary>
-		/// <param name="obj">Object from where the Property Value is returned</param>
-		/// <param name="propName">Propertyname as string.</param>
-		/// <param name="val">the value to set</param>
-		/// <exception cref="ArgumentOutOfRangeException">if the Property is not found</exception>
-		public static void SetPrivateFieldValue(this object obj, string propName, object val)
-		{
-			if (obj == null) throw new ArgumentNullException("obj");
-			Type? t = obj.GetType();
-			FieldInfo? fi = null;
-			while (fi == null && t != null)
-			{
-				fi = t.GetField(propName, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
-				t = t.BaseType;
-			}
-			if (fi == null) throw new ArgumentOutOfRangeException("propName", string.Format("Field {0} was not found in Type {1}", propName, obj.GetType().FullName));
-			fi.SetValue(obj, val);
 		}
 	}
 }

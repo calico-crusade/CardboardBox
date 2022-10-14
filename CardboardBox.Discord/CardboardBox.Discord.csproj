@@ -12,7 +12,7 @@
     <RepositoryUrl>https://github.com/calico-crusade/CardboardBox</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Discord;Application Commands;CardboardBox;Cardboard;SlashCommands;</PackageTags>
-    <Version>1.0.7</Version>
+    <Version>1.0.8</Version>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
@@ -35,6 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CardboardBox.Extensions\CardboardBox.Extensions.csproj" />
     <ProjectReference Include="..\CardboardBox.Http\CardboardBox.Http.csproj" />
   </ItemGroup>
 

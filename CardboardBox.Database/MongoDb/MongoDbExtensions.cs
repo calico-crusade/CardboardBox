@@ -1,9 +1,53 @@
 ﻿using MongoDB.Driver;
+using System.Linq.Expressions;
 
 namespace CardboardBox.Database
 {
 	public static class MongoDbExtensions
 	{
+		private const string MONGO_PAG_COUNT_DEFAULT = "count";
+		private const string MONGO_PAG_DATA_DEFAULT = "data";
+
+		public static async Task<PaginatedResult<T>> Paginate<T>(
+			this IMongoService<T> mongo,
+			int page, int size,
+			Expression<Func<T, object>> sort,
+			bool ascending = true,
+			FilterDefinition<T>? filter = null,
+			string countName = MONGO_PAG_COUNT_DEFAULT,
+			string dataName = MONGO_PAG_DATA_DEFAULT)
+		{
+			var countFacet = AggregateFacet.Create(countName,
+				PipelineDefinition<T, AggregateCountResult>.Create(new[]
+				{
+					PipelineStageDefinitionBuilder.Count<T>()
+				}));
+
+			var dataFacet = AggregateFacet.Create(dataName,
+				PipelineDefinition<T, T>.Create(new[]
+				{
+					PipelineStageDefinitionBuilder.Sort(ascending ? Builders<T>.Sort.Ascending(sort) : Builders<T>.Sort.Descending(sort)),
+					PipelineStageDefinitionBuilder.Skip<T>((page - 1) * size),
+					PipelineStageDefinitionBuilder.Limit<T>(size)
+				}));
+
+			filter ??= mongo.Filter.Empty;
+			var ag = (await mongo.Collection.Aggregate()
+				.Match(filter)
+				.Facet(countFacet, dataFacet)
+				.ToListAsync()).First();
+
+			var count = ag.Facets.First(t => t.Name == countName)
+				.Output<AggregateCountResult>()?
+				.FirstOrDefault()?
+				.Count ?? 0;
+
+			var total = (int)count / size;
+			var data = ag.Facets.First(t => t.Name == dataName).Output<T>();
+
+			return new(total, (int)count, data.ToArray());
+		}
+
 		public static Task<T> Find<T>(this IMongoService<T> service, string id) where T: MongoEntity
 		{
 			return service.Collection.Find(t => t.Id == id).SingleOrDefaultAsync();
@@ -33,6 +77,11 @@ namespace CardboardBox.Database
 		public static Task Insert<T>(this IMongoService<T> service, T entity) where T: MongoEntity
 		{
 			return service.Collection.InsertOneAsync(entity);
+		}
+
+		public static async Task<List<T>> ToList<T>(this Task<IAsyncCursor<T>> task)
+		{
+			return await (await task).ToListAsync();
 		}
 	}
 }

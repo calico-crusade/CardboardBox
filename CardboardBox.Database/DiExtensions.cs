@@ -6,7 +6,7 @@ using System.Data;
 
 namespace CardboardBox.Database
 {
-	public static class Extensions
+	public static class DiExtensions
 	{
 		public static IServiceCollection DapperCamelCase(this IServiceCollection service, Action<FluentConventionConfiguration>? config = null)
 		{

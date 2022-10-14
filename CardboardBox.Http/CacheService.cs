@@ -41,11 +41,11 @@ namespace CardboardBox.Http
 	/// <summary>
 	/// Represents a file-system based <see cref="ICacheService"/>
 	/// </summary>
-	public class FileCacheService : ICacheService
+	public class DiskCacheService : ICacheService
 	{
 		private readonly IJsonService _json;
 
-		public FileCacheService(IJsonService json)
+		public DiskCacheService(IJsonService json)
 		{
 			_json = json;
 		}

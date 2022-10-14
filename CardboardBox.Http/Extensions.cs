@@ -59,7 +59,7 @@ namespace CardboardBox.Http
 			return services
 				.AddHttpClient()
 				.AddTransient<IApiService, ApiService>()
-				.AddTransient<ICacheService, FileCacheService>();
+				.AddTransient<ICacheService, DiskCacheService>();
 		}
 	}
 }

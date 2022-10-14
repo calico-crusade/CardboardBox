@@ -27,6 +27,8 @@ namespace CardboardBox.Http
 		/// <returns>An instance of the <see cref="IHttpBuilder"/></returns>
 		IHttpBuilder Create(string url, IJsonService json, string method = "GET");
 
+		#region GET requests
+
 		/// <summary>
 		/// Creates a GET request for the given URL
 		/// </summary>
@@ -69,6 +71,10 @@ namespace CardboardBox.Http
 		/// <returns>A Task representing the results of the request</returns>
 		Task<HttpStatusResult<TSuccess, TFailure>> CacheGet<TSuccess, TFailure>(string url, Action<HttpRequestMessage>? config = null, string? cacheDir = null, double? cacheMin = null);
 
+		#endregion
+
+		#region POST requests
+
 		/// <summary>
 		/// Creates a POST request for the given URL and data
 		/// </summary>
@@ -91,6 +97,33 @@ namespace CardboardBox.Http
 		/// <param name="config">Any optional configuration necessary</param>
 		/// <returns>A task representing the results of the request</returns>
 		Task<HttpStatusResult<TSuccess, TFailure>> Post<TSuccess, TFailure, TData>(string url, TData data, Action<HttpRequestMessage>? config = null);
+
+		/// <summary>
+		/// Creates a POST request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="T">The return type</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="formData">The body of the POST request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		Task<T?> Post<T>(string url, (string key, string val)[] formData, Action<HttpRequestMessage>? config = null);
+
+		/// <summary>
+		/// Creates a POST request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="TSuccess">The return type for a successful request</typeparam>
+		/// <typeparam name="TFailure">he return type for a failed request</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="data">The body of the POST request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		Task<HttpStatusResult<TSuccess, TFailure>> Post<TSuccess, TFailure>(string url, (string key, string val)[] data, Action<HttpRequestMessage>? config = null);
+
+		#endregion
+
+		#region PUT requests
 
 		/// <summary>
 		/// Creates a PUT request for the given URL and data
@@ -116,6 +149,33 @@ namespace CardboardBox.Http
 		Task<HttpStatusResult<TSuccess, TFailure>> Put<TSuccess, TFailure, TData>(string url, TData data, Action<HttpRequestMessage>? config = null);
 
 		/// <summary>
+		/// Creates a PUT request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="T">The return type</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="formData">The body of the POST request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		Task<T?> Put<T>(string url, (string key, string val)[] formData, Action<HttpRequestMessage>? config = null);
+
+		/// <summary>
+		/// Creates a PUT request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="TSuccess">The return type for a successful request</typeparam>
+		/// <typeparam name="TFailure">he return type for a failed request</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="data">The body of the PUT request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		Task<HttpStatusResult<TSuccess, TFailure>> Put<TSuccess, TFailure>(string url, (string key, string val)[] data, Action<HttpRequestMessage>? config = null);
+		
+		#endregion
+
+		#region DELETE requests
+
+		/// <summary>
 		/// Creates a DELETE request for the given URL
 		/// </summary>
 		/// <typeparam name="T">The return type</typeparam>
@@ -133,6 +193,8 @@ namespace CardboardBox.Http
 		/// <param name="config">Any optional configuration necessary</param>
 		/// <returns>A Task representing the results of the request</returns>
 		Task<HttpStatusResult<TSuccess, TFailure>> Delete<TSuccess, TFailure>(string url, Action<HttpRequestMessage>? config = null);
+		
+		#endregion
 
 		/// <summary>
 		/// Generates a URL with the given query parameters
@@ -190,6 +252,8 @@ namespace CardboardBox.Http
 		/// <returns>An instance of the <see cref="IHttpBuilder"/></returns>
 		public virtual IHttpBuilder Create(string url, string method = "GET") => Create(url, _json, method);
 
+		#region GET Requests
+
 		/// <summary>
 		/// Creates a GET request for the given URL
 		/// </summary>
@@ -243,7 +307,11 @@ namespace CardboardBox.Http
 		{
 			return Create(url).With(config).Cache(true, cacheDir, cacheMin).Result<TSuccess, TFailure>();
 		}
+		
+		#endregion
 
+		#region POST requests
+		
 		/// <summary>
 		/// Creates a POST request for the given URL and data
 		/// </summary>
@@ -274,6 +342,39 @@ namespace CardboardBox.Http
 		}
 
 		/// <summary>
+		/// Creates a POST request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="T">The return type</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="formData">The body of the POST request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		public Task<T?> Post<T>(string url, (string key, string val)[] formData, Action<HttpRequestMessage>? config = null)
+		{
+			return Create(url, "POST").With(config).Body(formData).Result<T>();
+		}
+
+		/// <summary>
+		/// Creates a POST request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="TSuccess">The return type for a successful request</typeparam>
+		/// <typeparam name="TFailure">he return type for a failed request</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="data">The body of the POST request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		public Task<HttpStatusResult<TSuccess, TFailure>> Post<TSuccess, TFailure>(string url, (string key, string val)[] data, Action<HttpRequestMessage>? config = null)
+		{
+			return Create(url, "POST").With(config).Body(data).Result<TSuccess, TFailure>();
+		}
+		
+		#endregion
+
+		#region PUT requests
+		
+		/// <summary>
 		/// Creates a PUT request for the given URL and data
 		/// </summary>
 		/// <typeparam name="TResult">The return type</typeparam>
@@ -303,6 +404,38 @@ namespace CardboardBox.Http
 		}
 
 		/// <summary>
+		/// Creates a PUT request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="T">The return type</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="formData">The body of the POST request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		public Task<T?> Put<T>(string url, (string key, string val)[] formData, Action<HttpRequestMessage>? config = null)
+		{
+			return Create(url, "PUT").With(config).Body(formData).Result<T>();
+		}
+
+		/// <summary>
+		/// Creates a PUT request for the given URL and data.
+		/// Data will be encoded using <see cref="FormUrlEncodedContent"/>
+		/// </summary>
+		/// <typeparam name="TSuccess">The return type for a successful request</typeparam>
+		/// <typeparam name="TFailure">he return type for a failed request</typeparam>
+		/// <param name="url">The URL of the request</param>
+		/// <param name="data">The body of the PUT request</param>
+		/// <param name="config">Any optional configuration necessary</param>
+		/// <returns>A task representing the results of the request</returns>
+		public Task<HttpStatusResult<TSuccess, TFailure>> Put<TSuccess, TFailure>(string url, (string key, string val)[] data, Action<HttpRequestMessage>? config = null)
+		{
+			return Create(url, "PUT").With(config).Body(data).Result<TSuccess, TFailure>();
+		}
+		
+		#endregion
+
+		#region DELETE requests
+		/// <summary>
 		/// Creates a DELETE request for the given URL
 		/// </summary>
 		/// <typeparam name="T">The return type</typeparam>
@@ -326,6 +459,7 @@ namespace CardboardBox.Http
 		{
 			return Create(url, "DELETE").With(config).Result<TSuccess, TFailure>();
 		}
+		#endregion
 
 		/// <summary>
 		/// Generates a URL with the given query parameters
