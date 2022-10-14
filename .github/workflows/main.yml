@@ -29,7 +29,7 @@ jobs:
           dotnet-version: '6.0.x'
      
       - name: Publish Https Nuget Package
-        id: publish_nuget_https
+        id: publish_nuget_extensions
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Extensions/CardboardBox.Extensions.csproj
@@ -37,7 +37,7 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           
       - name: Publish Main Nuget Package
-        id: publish_nuget
+        id: publish_nuget_discord
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Discord/CardboardBox.Discord.csproj
@@ -54,7 +54,7 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
      
       - name: Publish Https Nuget Package
-        id: publish_nuget_https
+        id: publish_nuget_https_html
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Http.Html/CardboardBox.Http.Html.csproj
@@ -62,7 +62,7 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
       - name: Publish Https Nuget Package
-        id: publish_nuget_https
+        id: publish_nuget_https_files
         uses: rohith/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Http.Files/CardboardBox.Http.Files.csproj
