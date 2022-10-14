@@ -24,13 +24,13 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Setup dotnet
-        uses: actions/setup-dotnet@v1
+        uses: actions/setup-dotnet@v3
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '6.x'
      
       - name: Publish Https Nuget Package
         id: publish_nuget_extensions
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Extensions/CardboardBox.Extensions.csproj
           TAG_COMMIT: true
@@ -38,7 +38,7 @@ jobs:
           
       - name: Publish Main Nuget Package
         id: publish_nuget_discord
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Discord/CardboardBox.Discord.csproj
           TAG_COMMIT: true
@@ -47,7 +47,7 @@ jobs:
           
       - name: Publish Https Nuget Package
         id: publish_nuget_https
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Http/CardboardBox.Http.csproj
           TAG_COMMIT: true
@@ -55,7 +55,7 @@ jobs:
      
       - name: Publish Https Nuget Package
         id: publish_nuget_https_html
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Http.Html/CardboardBox.Http.Html.csproj
           TAG_COMMIT: true
@@ -63,7 +63,7 @@ jobs:
 
       - name: Publish Https Nuget Package
         id: publish_nuget_https_files
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Http.Files/CardboardBox.Http.Files.csproj
           TAG_COMMIT: true
@@ -72,7 +72,7 @@ jobs:
           
       - name: Publish Reids Nuget Package
         id: publish_nuget_redis
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Redis/CardboardBox.Redis.csproj
           TAG_COMMIT: true
@@ -80,7 +80,7 @@ jobs:
 
       - name: Publish Json Nuget Package
         id: publish_nuget_json
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Json/CardboardBox.Json.csproj
           TAG_COMMIT: true
@@ -88,7 +88,7 @@ jobs:
 
       - name: Publish Database Nuget Package
         id: publish_nuget_database
-        uses: rohith/publish-nuget@v2
+        uses: brandedoutcast/publish-nuget@v2
         with:
           PROJECT_FILE_PATH: CardboardBox.Database/CardboardBox.Database.csproj
           TAG_COMMIT: true
