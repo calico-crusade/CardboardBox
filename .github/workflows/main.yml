@@ -28,7 +28,7 @@ jobs:
         with:
           dotnet-version: '6.x'
      
-      - name: Publish Https Nuget Package
+      - name: Publish Extensions Nuget Package
         id: publish_nuget_extensions
         uses: alirezanet/publish-nuget@v3.0.4
         with:
@@ -36,7 +36,7 @@ jobs:
           TAG_COMMIT: true
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           
-      - name: Publish Main Nuget Package
+      - name: Publish Discord Nuget Package
         id: publish_nuget_discord
         uses: alirezanet/publish-nuget@v3.0.4
         with:
@@ -53,7 +53,7 @@ jobs:
           TAG_COMMIT: true
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
      
-      - name: Publish Https Nuget Package
+      - name: Publish Https HTML Nuget Package
         id: publish_nuget_https_html
         uses: alirezanet/publish-nuget@v3.0.4
         with:
@@ -61,7 +61,7 @@ jobs:
           TAG_COMMIT: true
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
 
-      - name: Publish Https Nuget Package
+      - name: Publish Https Files Nuget Package
         id: publish_nuget_https_files
         uses: alirezanet/publish-nuget@v3.0.4
         with:
@@ -70,7 +70,7 @@ jobs:
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}
           
           
-      - name: Publish Reids Nuget Package
+      - name: Publish Redis Nuget Package
         id: publish_nuget_redis
         uses: alirezanet/publish-nuget@v3.0.4
         with:
@@ -91,5 +91,13 @@ jobs:
         uses: alirezanet/publish-nuget@v3.0.4
         with:
           PROJECT_FILE_PATH: CardboardBox.Database/CardboardBox.Database.csproj
+          TAG_COMMIT: true
+          NUGET_KEY: ${{secrets.NUGET_API_KEY}}
+
+      - name: Publish Setup Nuget Package
+        id: publish_nuget_setup
+        uses: alirezanet/publish-nuget@v3.0.4
+        with:
+          PROJECT_FILE_PATH: CardboardBox.Setup/CardboardBox.Setup.csproj
           TAG_COMMIT: true
           NUGET_KEY: ${{secrets.NUGET_API_KEY}}

@@ -59,10 +59,10 @@ namespace CardboardBox.Database.Generation
 		{
 			var prop = property.GetPropertyInfo();
 			if (prop == null) throw new ArgumentNullException(nameof(property));
-			return _convention.ToCase(prop.Name);
+			return _convention.ToCase(prop.Name) ?? string.Empty;
 		}
 
-		public PropertyName GetPropertyName(PropertyInfo prop) => new(prop.Name, _convention.ToCase(prop.Name));
+		public PropertyName GetPropertyName(PropertyInfo prop) => new(prop.Name, _convention.ToCase(prop.Name) ?? string.Empty);
 
 		public PropertyName[] GetPropertyNames<T>(Action<PropertyExpressionBuilder<T>> action)
 		{

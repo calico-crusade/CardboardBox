@@ -2,16 +2,16 @@
 {
 	public interface INameConvention
 	{
-		string ToCase(string text);
+		string? ToCase(string text);
 	}
 
 	public class CamelCaseNameConventon : INameConvention
 	{
-		public string ToCase(string text) => text.ToSnakeCase();
+		public string? ToCase(string text) => text.ToSnakeCase();
 	}
 
 	public class PascalCaseNameConvention : INameConvention
 	{
-		public string ToCase(string text) => text.ToPascalCase();
+		public string? ToCase(string text) => text.ToPascalCase();
 	}
 }

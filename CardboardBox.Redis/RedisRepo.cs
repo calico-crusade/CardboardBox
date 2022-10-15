@@ -39,7 +39,7 @@ namespace CardboardBox.Redis
         {
             var value = await Database.StringGetAsync(key);
             if (value.IsNullOrEmpty) return def;
-            return _json.Deserialize<T>(value);
+            return _json.Deserialize<T>((string?)value ?? string.Empty);
         }
 
         public async Task<Dictionary<string, T?>> GetAll<T>(string pattern)
@@ -49,8 +49,9 @@ namespace CardboardBox.Redis
 
             var dic = new Dictionary<string, T?>();
 
-            foreach (var key in keys)
-                dic.Add(key, await Get<T>(key));
+            foreach (string? key in keys)
+                if (!string.IsNullOrEmpty(key))
+                    dic.Add(key, await Get<T>(key));
 
             return dic;
         }
@@ -59,7 +60,7 @@ namespace CardboardBox.Redis
 
         public Task Subscribe(string channel, Action<RedisChannel, RedisValue> action) => Subscriber.SubscribeAsync(channel, action);
 
-        public Task Subscribe<T>(string channel, Action<RedisChannel, T?> action) => Subscribe(channel, (c, v) => action(c, _json.Deserialize<T>(v)));
+        public Task Subscribe<T>(string channel, Action<RedisChannel, T?> action) => Subscribe(channel, (c, v) => action(c, _json.Deserialize<T>((string?)v ?? string.Empty)));
 
         public Task<bool> Delete(string key) => Database.KeyDeleteAsync(key);
 

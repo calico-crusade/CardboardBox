@@ -34,7 +34,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Extensions", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CardboardBox Http", "CardboardBox Http", "{61A00A8A-955C-4B58-9DE9-3A8B60DCEFC3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Http.Files", "CardboardBox.Http.Files\CardboardBox.Http.Files.csproj", "{1488A929-0A29-41C0-890A-B40DDDC28906}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardboardBox.Http.Files", "CardboardBox.Http.Files\CardboardBox.Http.Files.csproj", "{1488A929-0A29-41C0-890A-B40DDDC28906}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.Setup", "CardboardBox.Setup\CardboardBox.Setup.csproj", "{C4468F1B-AA62-4056-8C9D-4D38FAC0285F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CardboardBox Discord", "CardboardBox Discord", "{04A99174-8423-4864-AB0A-ABC80E853F99}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CardboardBox.TestCli", "CardboardBox.TestCli\CardboardBox.TestCli.csproj", "{EA082A68-81FA-486A-B514-5EEB39B5C511}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -90,12 +96,22 @@ Global
 		{1488A929-0A29-41C0-890A-B40DDDC28906}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1488A929-0A29-41C0-890A-B40DDDC28906}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1488A929-0A29-41C0-890A-B40DDDC28906}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C4468F1B-AA62-4056-8C9D-4D38FAC0285F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C4468F1B-AA62-4056-8C9D-4D38FAC0285F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C4468F1B-AA62-4056-8C9D-4D38FAC0285F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C4468F1B-AA62-4056-8C9D-4D38FAC0285F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA082A68-81FA-486A-B514-5EEB39B5C511}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA082A68-81FA-486A-B514-5EEB39B5C511}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA082A68-81FA-486A-B514-5EEB39B5C511}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA082A68-81FA-486A-B514-5EEB39B5C511}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
+		{FFE0232C-D773-4EC1-8156-71909A2B4711} = {04A99174-8423-4864-AB0A-ABC80E853F99}
 		{537376C8-5143-4E0E-BAAB-F2DD03445D22} = {61A00A8A-955C-4B58-9DE9-3A8B60DCEFC3}
+		{1A5F2229-6046-4EBA-9265-0A859880581B} = {04A99174-8423-4864-AB0A-ABC80E853F99}
 		{C3F62273-D82A-4320-9FB1-1059769FAA25} = {61A00A8A-955C-4B58-9DE9-3A8B60DCEFC3}
 		{1488A929-0A29-41C0-890A-B40DDDC28906} = {61A00A8A-955C-4B58-9DE9-3A8B60DCEFC3}
 	EndGlobalSection
