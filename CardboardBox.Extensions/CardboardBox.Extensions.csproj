@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>1.0.7</Version>
+	<Version>1.0.8</Version>
 	<Company>Cardboard</Company>
 	<Product>CardboardBox.Extensions</Product>
 	<Authors>Cardboard</Authors>
@@ -20,6 +20,10 @@
       <PackagePath>\</PackagePath>
       <Pack>True</Pack>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>
