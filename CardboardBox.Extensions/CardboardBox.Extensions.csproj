@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>1.0.8</Version>
+	<Version>1.0.9</Version>
 	<Company>Cardboard</Company>
 	<Product>CardboardBox.Extensions</Product>
 	<Authors>Cardboard</Authors>
@@ -13,6 +13,7 @@
 	<RepositoryUrl>https://github.com/calico-crusade/CardboardBox</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<PackageTags>extensions;ext;cardboardbox</PackageTags>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>

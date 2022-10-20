@@ -15,7 +15,20 @@ namespace CardboardBox
 			using var md5 = MD5.Create();
 			var input = Encoding.UTF8.GetBytes(data);
 			var output = md5.ComputeHash(input);
-			return Convert.ToHexString(output);
+			return output.ToHexString();
+		}
+
+		/// <summary>
+		/// Converts the given byte array into a HEX string (polyfil for Convert.ToHexString in .net 5+)
+		/// </summary>
+		/// <param name="data">The byte array data to convert</param>
+		/// <returns>The byte array represented as a hex string</returns>
+		public static string ToHexString(this byte[] data)
+		{
+			var bob = new StringBuilder();
+			foreach (byte b in data)
+				bob.AppendFormat("{0:x2}", b);
+			return bob.ToString();
 		}
 
 		/// <summary>

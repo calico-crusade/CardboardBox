@@ -1,10 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-	<Version>1.0.7</Version>
+	<Version>1.0.8</Version>
 	<Company>Cardboard</Company>
 	<Product>CardboardBox.Setup</Product>
 	<Authors>Cardboard</Authors>
@@ -13,6 +13,7 @@
 	<RepositoryUrl>https://github.com/calico-crusade/CardboardBox</RepositoryUrl>
 	<RepositoryType>git</RepositoryType>
 	<PackageTags>Dapper;Mongodb;Postgres;Sql Server;sql;cardboardbox</PackageTags>
+	<LangVersion>10.0</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -35,6 +36,10 @@
     <PackageReference Include="Serilog.Extensions.Logging" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="5.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CardboardBox.Extensions\CardboardBox.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

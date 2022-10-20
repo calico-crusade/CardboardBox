@@ -83,8 +83,7 @@ namespace CardboardBox.Setup.CliParser
 
 			var method = service
 				.GetType()
-				.GetMethod("Run", 
-					BindingFlags.Public | BindingFlags.Instance, 
+				.GetMethod("Run",
 					new Type[] { verbType.Options });
 
 			if (method == null) 

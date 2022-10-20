@@ -22,7 +22,7 @@ namespace CardboardBox.Json
 		/// <typeparam name="T">The type to deserialize to</typeparam>
 		/// <param name="stream">The stream of JSON data</param>
 		/// <returns>A task representing the deserialized result</returns>
-		ValueTask<T?> Deserialize<T>(Stream stream);
+		Task<T?> Deserialize<T>(Stream stream);
 
 		/// <summary>
 		/// Serializes the given data to JSON
@@ -61,12 +61,13 @@ namespace CardboardBox.Json
 		/// <typeparam name="T">The type to deserialize to</typeparam>
 		/// <param name="stream">The stream of JSON data</param>
 		/// <returns>A task representing the deserialized result</returns>
-		public ValueTask<T?> Deserialize<T>(Stream stream)
+		public Task<T?> Deserialize<T>(Stream stream)
 		{
 			var ser = new JsonSerializer();
 			using var sr = new StreamReader(stream);
 			using var jtr = new JsonTextReader(sr);
-			return ValueTask.FromResult(ser.Deserialize<T>(jtr));
+			
+			return Task.FromResult(ser.Deserialize<T>(jtr));
 		}
 
 		/// <summary>
@@ -121,7 +122,7 @@ namespace CardboardBox.Json
 		/// <typeparam name="T">The type to deserialize to</typeparam>
 		/// <param name="stream">The stream of JSON data</param>
 		/// <returns>A task representing the deserialized result</returns>
-		public ValueTask<T?> Deserialize<T>(Stream stream) => STJ.JsonSerializer.DeserializeAsync<T>(stream, _settings);
+		public async Task<T?> Deserialize<T>(Stream stream) => await STJ.JsonSerializer.DeserializeAsync<T>(stream, _settings);
 
 		/// <summary>
 		/// Serializes the given data to JSON
