@@ -1,23 +1,9 @@
-﻿using System.Security.Cryptography;
-using System.Text;
+﻿using System.Text;
 
 namespace CardboardBox
 {
 	public static class StringExtensions
 	{
-		/// <summary>
-		/// Generates an MD5 Hash of the given string
-		/// </summary>
-		/// <param name="data">The string to hash</param>
-		/// <returns>The MD5 hash of the given string</returns>
-		public static string MD5Hash(this string data)
-		{
-			using var md5 = MD5.Create();
-			var input = Encoding.UTF8.GetBytes(data);
-			var output = md5.ComputeHash(input);
-			return output.ToHexString();
-		}
-
 		/// <summary>
 		/// Converts the given byte array into a HEX string (polyfil for Convert.ToHexString in .net 5+)
 		/// </summary>
@@ -144,6 +130,21 @@ namespace CardboardBox
 
 				current += Environment.NewLine + line;
 			}
+		}
+
+		/// <summary>
+		/// Safely executes <see cref="string.Substring(int, int)"/> capping the result at the length of the string
+		/// </summary>
+		/// <param name="text">The text to substring</param>
+		/// <param name="length">How many character to fetch</param>
+		/// <param name="start">Where to start the sub-string</param>
+		/// <returns>The substring</returns>
+		public static string SafeSubString(this string text, int length, int start = 0)
+		{
+			if (start + length > text.Length)
+				return text[start..];
+
+			return text.Substring(start, length);
 		}
 	}
 }

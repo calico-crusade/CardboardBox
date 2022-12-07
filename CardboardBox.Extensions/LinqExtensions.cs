@@ -259,6 +259,23 @@
 				yield return cur.ToArray();
 		}
 
+		/// <summary>
+		/// Gets the first item that matches the predicate. If none is found, defaults to <see cref="Enumerable.FirstOrDefault{TSource}(IEnumerable{TSource})"/>
+		/// </summary>
+		/// <typeparam name="T">The type of the records</typeparam>
+		/// <param name="data">The collection to iterate through</param>
+		/// <param name="prefered">The predicate to match the elements too</param>
+		/// <returns>The first prefered item or the results of <see cref="Enumerable.FirstOrDefault{TSource}(IEnumerable{TSource})"/></returns>
+		public static T? PreferedOrFirst<T>(this IEnumerable<T> data, Func<T, bool> prefered)
+		{
+			foreach (var item in data)
+			{
+				if (prefered(item)) return item;
+			}
+
+			return data.FirstOrDefault();
+		}
+
 		#endregion
 	}
 }
