@@ -13,6 +13,10 @@ namespace CardboardBox.Discord
 		[JsonPropertyName("permissions")]
 		public ApplicationCommandPermission[] Permissions { get; set; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="perms"></param>
 		public ApplicationCommandPermissions(ApplicationCommandPermission[] perms)
 		{
 			Permissions = perms;
@@ -42,8 +46,15 @@ namespace CardboardBox.Discord
 		[JsonPropertyName("permission")]
 		public bool Permission { get; set; }
 
+		/// <summary></summary>
 		public ApplicationCommandPermission() { }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <param name="type"></param>
+		/// <param name="perm"></param>
 		public ApplicationCommandPermission(ulong id, ApplicationCommandPermissionType type, bool perm)
 		{
 			RoleUserId = id;
@@ -52,9 +63,18 @@ namespace CardboardBox.Discord
 		}
 	}
 
+	/// <summary>
+	/// The type of application command permission
+	/// </summary>
 	public enum ApplicationCommandPermissionType
 	{ 
+		/// <summary>
+		/// The permission is for a specific role
+		/// </summary>
 		Role = 1,
+		/// <summary>
+		/// The permission is for a specific user
+		/// </summary>
 		User = 2
 	}
 }

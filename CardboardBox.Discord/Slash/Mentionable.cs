@@ -27,11 +27,19 @@ namespace CardboardBox.Discord
 		/// </summary>
 		public bool IsRole => Role != null;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="role"></param>
 		public Mentionable(IRole role)
 		{
 			Role = role;
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="user"></param>
 		public Mentionable(IUser user)
 		{
 			User = user;

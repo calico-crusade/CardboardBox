@@ -15,6 +15,11 @@
 		/// </summary>
 		public string Name { get; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="target"></param>
+		/// <param name="name"></param>
 		public DuplicateCommandException(Type target, string name)
 		{
 			Target = target;

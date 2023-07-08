@@ -5,6 +5,10 @@
 	/// </summary>
 	public class NoCommandHandlerException : Exception
 	{
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cmd"></param>
 		public NoCommandHandlerException(string cmd) : base($"Slash command received, but no handlers registered: {cmd}") { }
 	}
 }

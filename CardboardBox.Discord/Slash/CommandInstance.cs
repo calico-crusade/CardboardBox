@@ -38,6 +38,13 @@ namespace CardboardBox.Discord
 		/// </summary>
 		public string Name => Attribute.Name;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="atr"></param>
+		/// <param name="parent"></param>
+		/// <param name="method"></param>
+		/// <param name="bob"></param>
 		public CommandInstance(CommandAttribute atr, Type parent, MethodInfo method, SlashCommandBuilder bob)
 		{
 			Attribute = atr;
@@ -77,6 +84,13 @@ namespace CardboardBox.Discord
 		/// </summary>
 		public Type Type => Parameter.ParameterType;
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="atr"></param>
+		/// <param name="par"></param>
+		/// <param name="bob"></param>
+		/// <param name="pos"></param>
 		public CommandOption(OptionAttribute atr, ParameterInfo par, SlashCommandOptionBuilder bob, int pos)
 		{
 			Attribute = atr;

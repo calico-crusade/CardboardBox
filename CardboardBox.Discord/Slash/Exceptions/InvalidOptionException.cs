@@ -10,6 +10,10 @@
 		/// </summary>
 		public Type Type { get; }
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="type"></param>
 		public InvalidOptionException(Type type)
 		{
 			Type = type;

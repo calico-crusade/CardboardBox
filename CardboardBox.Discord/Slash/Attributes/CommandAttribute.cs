@@ -22,6 +22,11 @@
 		public bool LongRunning { get; set; } = false;
 
 		/// <summary>
+		/// Whether or not the response should be ephemeral
+		/// </summary>
+		public bool Ephemeral { get; set; } = false;
+
+		/// <summary>
 		/// Default constructor for a Command
 		/// </summary>
 		/// <param name="name">The name of the command</param>
