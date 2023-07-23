@@ -98,9 +98,8 @@ public class DiscordEventHandler : IDiscordEventHandler
 	{
 		return AddHandler(async (provider, client) =>
 		{
-			var service = provider.GetService<T>();
-			if (service == null)
-				throw new NullReferenceException($"Cannot find instance of `{typeof(T).Name}` in dependency collection. Did you register it?");
+			var service = provider.GetService<T>() 
+				?? throw new NullReferenceException($"Cannot find instance of `{typeof(T).Name}` in dependency collection. Did you register it?");
 
 			await handler(service, client);
 		});

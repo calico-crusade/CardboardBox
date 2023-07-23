@@ -1,5 +1,6 @@
 ﻿using CardboardBox.Discord.Components;
 using CardboardBox.Http;
+using CardboardBox.Json;
 using Discord.Commands;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
@@ -78,9 +79,9 @@ public class DiscordBotBuilder : IDiscordBotBuilder
 	private readonly IServiceCollection _services;
 	private readonly DiscordSocketClient _client;
 	private readonly IDiscordEventHandler _handler;
+    private readonly IComponentHandlerService _components;
 
-	private DiscordSlashCommandBuilder? _slash;
-	private IComponentHandlerService _components;
+    private DiscordSlashCommandBuilder? _slash;
 
 	private bool LoggingAdded = false;
 	private bool ConfigAdded = false;
@@ -210,6 +211,7 @@ public class DiscordBotBuilder : IDiscordBotBuilder
 				.CreateLogger()));
 
 		_services
+			.AddJson()
 			.AddCardboardHttp()
 			.AddSingleton(_client ?? new())
 			.AddSingleton(_handler)
